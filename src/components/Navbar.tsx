@@ -58,6 +58,7 @@ export default function Navbar({ users, onEditUser, onDeleteUser }: NavbarProps)
             <select
               value={selectedEditId}
               onChange={handleEditSelect}
+              aria-label="เลือกผู้ใช้เพื่อแก้ไขข้อมูล"
               className="appearance-none pl-3 pr-8 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500 text-slate-700 dark:text-slate-200 cursor-pointer"
             >
               <option value="" disabled>✏️ เลือกผู้ใช้เพื่อแก้ไข...</option>
@@ -79,6 +80,7 @@ export default function Navbar({ users, onEditUser, onDeleteUser }: NavbarProps)
             <select
               value={selectedDeleteId}
               onChange={handleDeleteSelect}
+              aria-label="เลือกผู้ใช้เพื่อลบออกจากระบบ"
               className="appearance-none pl-3 pr-8 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium focus:outline-none focus:ring-1 focus:ring-rose-500 text-slate-700 dark:text-slate-200 cursor-pointer"
             >
               <option value="" disabled>🗑️ เลือกผู้ใช้เพื่อลบ...</option>
