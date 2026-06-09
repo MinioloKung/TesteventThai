@@ -48,7 +48,6 @@ let mockUsers: User[] = [
   { id: 10, email: 'byron.fields@reqres.in', first_name: 'Byron', last_name: 'Fields', avatar: 'https://reqres.in/img/faces/10-image.jpg' },
   { id: 11, email: 'george.edwards@reqres.in', first_name: 'George', last_name: 'Edwards', avatar: 'https://reqres.in/img/faces/11-image.jpg' },
   { id: 12, email: 'rachel.howell@reqres.in', first_name: 'Rachel', last_name: 'Howell', avatar: 'https://reqres.in/img/faces/12-image.jpg' },
-  // ผู้ใช้อีก 12 คนเพื่อให้ครบ 24 คน (หน้า 3)
   { id: 13, email: 'albert.einstein@reqres.in', first_name: 'Albert', last_name: 'Einstein', avatar: 'https://reqres.in/img/faces/1-image.jpg' },
   { id: 14, email: 'marie.curie@reqres.in', first_name: 'Marie', last_name: 'Curie', avatar: 'https://reqres.in/img/faces/2-image.jpg' },
   { id: 15, email: 'isaac.newton@reqres.in', first_name: 'Isaac', last_name: 'Newton', avatar: 'https://reqres.in/img/faces/3-image.jpg' },

@@ -78,6 +78,8 @@ export default function Navbar({ users, onEditUser, onDeleteUser }: NavbarProps)
               aria-label="เลือกผู้ใช้เพื่อแก้ไขข้อมูล"
               style={{
                 appearance: 'none',
+                width: '160px',
+                textOverflow: 'ellipsis',
                 paddingLeft: '1.875rem', paddingRight: '1.75rem',
                 paddingTop: '0.4rem', paddingBottom: '0.4rem',
                 background: '#1D1B52',
@@ -128,6 +130,8 @@ export default function Navbar({ users, onEditUser, onDeleteUser }: NavbarProps)
               aria-label="เลือกผู้ใช้เพื่อลบออกจากระบบ"
               style={{
                 appearance: 'none',
+                width: '160px',
+                textOverflow: 'ellipsis',
                 paddingLeft: '1.875rem', paddingRight: '1.75rem',
                 paddingTop: '0.4rem', paddingBottom: '0.4rem',
                 background: '#dc2626',
