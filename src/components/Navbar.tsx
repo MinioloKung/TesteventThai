@@ -40,10 +40,10 @@ export default function Navbar({ users, onEditUser, onDeleteUser }: NavbarProps)
         {/* Logo / Brand */}
         <div className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 text-white flex items-center justify-center font-bold shadow-md shadow-indigo-500/20">
-            U
+            D
           </div>
           <span className="font-bold text-lg bg-gradient-to-r from-slate-900 to-slate-700 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent">
-            ReqRes Manager
+            TestDashboard
           </span>
         </div>
 

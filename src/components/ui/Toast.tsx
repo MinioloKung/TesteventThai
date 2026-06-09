@@ -42,7 +42,7 @@ export function Toast({ message, type, onClose }: ToastProps) {
   };
 
   return (
-    <div className={`fixed bottom-5 right-5 z-50 flex items-center px-4 py-3 rounded-xl border shadow-lg transition-all transform duration-300 translate-y-0 scale-100 animate-slide-in ${typeStyles[type]}`}>
+    <div className={`fixed top-5 left-0 right-0 mx-auto w-max z-50 flex items-center px-4 py-3 rounded-xl border shadow-lg transition-all animate-fade-in ${typeStyles[type]}`}>
       {icons[type]}
       <span className="text-sm font-medium">{message}</span>
       <button onClick={onClose} className="ml-4 hover:opacity-85 focus:outline-none">

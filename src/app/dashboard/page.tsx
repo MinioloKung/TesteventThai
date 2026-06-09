@@ -104,10 +104,6 @@ export default function DashboardPage() {
               แสดงข้อมูลและจัดการรายชื่อผู้ใช้อิงจากข้อมูลหลังบ้านของ ReqRes API
             </p>
           </div>
-          
-          <div className="text-xs bg-indigo-50 dark:bg-indigo-950/20 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/50 px-3.5 py-2 rounded-xl font-semibold self-start md:self-center">
-            🔥 API Online: https://reqres.in
-          </div>
         </div>
 
         {/* Users Grid */}

@@ -9,7 +9,7 @@ import {
 const BASE_URL = 'https://reqres.in/api';
 
 // ใส่ ReqRes API Key ของคุณที่นี่
-const REQRES_API_KEY = 'YOUR_API_KEY_HERE';
+const REQRES_API_KEY = 'pro_8411b2ebbe14550dc2f58edb230ddf46e66a706f22216dc0c1d35ae4754c7922';
 
 function getHeaders(extraHeaders: Record<string, string> = {}): Record<string, string> {
   const headers: Record<string, string> = {
@@ -17,7 +17,8 @@ function getHeaders(extraHeaders: Record<string, string> = {}): Record<string, s
     ...extraHeaders,
   };
   
-  if (REQRES_API_KEY && REQRES_API_KEY !== 'YOUR_API_KEY_HERE') {
+  // ตรวจสอบว่าไม่ได้เป็นค่าว่าง
+  if (REQRES_API_KEY && REQRES_API_KEY.trim() !== '') {
     headers['x-api-key'] = REQRES_API_KEY;
   }
   return headers;
