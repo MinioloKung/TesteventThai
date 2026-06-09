@@ -121,7 +121,7 @@ function CustomDropdown({ id, placeholder, users, accentColor, iconPath, onSelec
             top: 'calc(100% + 6px)',
             left: 0,
             zIndex: 200,
-            width: '240px',
+            width: '280px',
             background: '#ffffff',
             borderRadius: '12px',
             border: '1px solid rgba(29,27,82,0.08)',
