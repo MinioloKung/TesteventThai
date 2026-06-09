@@ -2,7 +2,7 @@
 
 /* ─── Design Tokens ─────────────────────────────────────── */
 @theme inline {
-  --font-sans: "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif;
+  /* Font injected via Next.js next/font/google in layout.tsx */
 
   /* Brand */
   --color-brand:        #1D1B52;
