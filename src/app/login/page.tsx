@@ -124,7 +124,7 @@ export default function LoginPage() {
           </div>
 
           <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.75rem' }}>
-            © 2025 TestDashboard
+            © 2026 TestDashboard
           </p>
         </div>
 
@@ -184,9 +184,6 @@ export default function LoginPage() {
               color: 'rgba(29,27,82,0.65)',
               lineHeight: 1.6,
             }}>
-              <p style={{ margin: '0 0 0.5rem' }}>
-                ระบบจะดึง API Key จาก <code style={{ background: 'rgba(29,27,82,0.08)', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>src/services/api.ts</code> โดยอัตโนมัติ
-              </p>
               <button
                 type="button"
                 onClick={useDemoAccount}

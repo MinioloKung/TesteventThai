@@ -18,52 +18,34 @@ export default function Navbar({ users, onEditUser, onDeleteUser }: NavbarProps)
   const handleEditSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const userId = Number(e.target.value);
     const user = users.find((u) => u.id === userId);
-    if (user) {
-      onEditUser(user);
-      setSelectedEditId('');
-    }
+    if (user) { onEditUser(user); setSelectedEditId(''); }
   };
 
   const handleDeleteSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const userId = Number(e.target.value);
     const user = users.find((u) => u.id === userId);
-    if (user) {
-      onDeleteUser(user);
-      setSelectedDeleteId('');
-    }
+    if (user) { onDeleteUser(user); setSelectedDeleteId(''); }
   };
 
   return (
-    <nav
-      style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 40,
-        width: '100%',
-        background: 'rgba(255, 255, 255, 0.92)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        borderBottom: '1.5px solid rgba(29, 27, 82, 0.08)',
-      }}
-    >
+    <nav style={{
+      position: 'sticky', top: 0, zIndex: 40, width: '100%',
+      background: 'rgba(255,255,255,0.94)',
+      backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)',
+      borderBottom: '1.5px solid rgba(29,27,82,0.08)',
+      boxShadow: '0 1px 0 rgba(29,27,82,0.04)',
+    }}>
       <div style={{
-        maxWidth: '80rem',
-        margin: '0 auto',
-        padding: '0 1.5rem',
-        height: '60px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: '1rem',
+        maxWidth: '80rem', margin: '0 auto', padding: '0 1.5rem',
+        height: '60px', display: 'flex', alignItems: 'center',
+        justifyContent: 'space-between', gap: '1rem',
       }}>
 
-        {/* Brand */}
+        {/* ── Brand ── */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', flexShrink: 0 }}>
           <div style={{
-            width: '34px', height: '34px',
-            background: '#1D1B52',
-            borderRadius: '9px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            width: '34px', height: '34px', background: '#1D1B52',
+            borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             <svg width="17" height="17" fill="none" stroke="white" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -75,26 +57,32 @@ export default function Navbar({ users, onEditUser, onDeleteUser }: NavbarProps)
           </span>
         </div>
 
-        {/* Quick Actions – center */}
+        {/* ── Bulk Actions ── */}
         <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.625rem',
+          display: 'flex', alignItems: 'center', gap: '0.5rem',
+          padding: '0.3125rem',
+          background: 'rgba(29,27,82,0.04)',
+          border: '1.5px solid rgba(29,27,82,0.08)',
+          borderRadius: '10px',
           overflowX: 'auto',
+          flexShrink: 1,
         }}>
+
+          {/* Section label */}
           <span style={{
-            fontSize: '0.6875rem',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            letterSpacing: '0.06em',
-            color: 'rgba(29,27,82,0.35)',
-            whiteSpace: 'nowrap',
-            flexShrink: 0,
+            fontSize: '0.625rem', fontWeight: 800,
+            textTransform: 'uppercase', letterSpacing: '0.08em',
+            color: 'rgba(29,27,82,0.30)',
+            paddingLeft: '0.375rem', paddingRight: '0.125rem',
+            whiteSpace: 'nowrap', flexShrink: 0,
           }}>
-            Quick Menu
+            Bulk Actions
           </span>
 
-          {/* Edit selector */}
+          {/* Separator */}
+          <div style={{ width: '1px', height: '20px', background: 'rgba(29,27,82,0.10)', flexShrink: 0 }} />
+
+          {/* Edit selector — styled as a solid pill-button */}
           <div style={{ position: 'relative', flexShrink: 0 }}>
             <select
               id="nav-edit-select"
@@ -103,51 +91,48 @@ export default function Navbar({ users, onEditUser, onDeleteUser }: NavbarProps)
               aria-label="เลือกผู้ใช้เพื่อแก้ไขข้อมูล"
               style={{
                 appearance: 'none',
-                paddingLeft: '2rem',
-                paddingRight: '1.875rem',
-                paddingTop: '0.4375rem',
-                paddingBottom: '0.4375rem',
-                background: '#ffffff',
-                border: '1.5px solid rgba(29,27,82,0.12)',
-                borderRadius: '8px',
-                fontSize: '0.8125rem',
-                fontWeight: 600,
-                color: '#1D1B52',
-                fontFamily: 'inherit',
-                cursor: 'pointer',
-                outline: 'none',
-                transition: 'border-color 0.15s',
+                paddingLeft: '1.875rem', paddingRight: '1.75rem',
+                paddingTop: '0.4rem', paddingBottom: '0.4rem',
+                background: '#1D1B52',
+                border: 'none',
+                borderRadius: '7px',
+                fontSize: '0.75rem', fontWeight: 700,
+                color: '#ffffff', fontFamily: 'inherit',
+                cursor: 'pointer', outline: 'none',
+                whiteSpace: 'nowrap',
               }}
             >
-              <option value="" disabled>✏️ แก้ไขผู้ใช้...</option>
+              <option value="" disabled style={{ background: '#fff', color: '#1D1B52' }}>
+                แก้ไขผู้ใช้...
+              </option>
               {users.map((user) => (
-                <option key={user.id} value={user.id}>
+                <option key={user.id} value={user.id} style={{ background: '#fff', color: '#1D1B52' }}>
                   {user.first_name} {user.last_name} — ID {user.id}
                 </option>
               ))}
             </select>
-            {/* Pencil icon left */}
+            {/* Pencil icon */}
             <div style={{
-              position: 'absolute', left: '0.625rem', top: '50%', transform: 'translateY(-50%)',
-              pointerEvents: 'none', color: '#1D1B52', opacity: 0.5,
+              position: 'absolute', left: '0.5625rem', top: '50%', transform: 'translateY(-50%)',
+              pointerEvents: 'none', color: 'rgba(255,255,255,0.75)',
             }}>
-              <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5"
                   d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
             </div>
-            {/* Chevron right */}
+            {/* Chevron */}
             <div style={{
-              position: 'absolute', right: '0.5rem', top: '50%', transform: 'translateY(-50%)',
-              pointerEvents: 'none', color: 'rgba(29,27,82,0.35)',
+              position: 'absolute', right: '0.4375rem', top: '50%', transform: 'translateY(-50%)',
+              pointerEvents: 'none', color: 'rgba(255,255,255,0.6)',
             }}>
-              <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
               </svg>
             </div>
           </div>
 
-          {/* Delete selector */}
+          {/* Delete selector — solid red */}
           <div style={{ position: 'relative', flexShrink: 0 }}>
             <select
               id="nav-delete-select"
@@ -156,92 +141,84 @@ export default function Navbar({ users, onEditUser, onDeleteUser }: NavbarProps)
               aria-label="เลือกผู้ใช้เพื่อลบออกจากระบบ"
               style={{
                 appearance: 'none',
-                paddingLeft: '2rem',
-                paddingRight: '1.875rem',
-                paddingTop: '0.4375rem',
-                paddingBottom: '0.4375rem',
-                background: '#ffffff',
-                border: '1.5px solid rgba(220,38,38,0.15)',
-                borderRadius: '8px',
-                fontSize: '0.8125rem',
-                fontWeight: 600,
-                color: '#dc2626',
-                fontFamily: 'inherit',
-                cursor: 'pointer',
-                outline: 'none',
-                transition: 'border-color 0.15s',
+                paddingLeft: '1.875rem', paddingRight: '1.75rem',
+                paddingTop: '0.4rem', paddingBottom: '0.4rem',
+                background: '#dc2626',
+                border: 'none',
+                borderRadius: '7px',
+                fontSize: '0.75rem', fontWeight: 700,
+                color: '#ffffff', fontFamily: 'inherit',
+                cursor: 'pointer', outline: 'none',
+                whiteSpace: 'nowrap',
               }}
             >
-              <option value="" disabled>🗑️ ลบผู้ใช้...</option>
+              <option value="" disabled style={{ background: '#fff', color: '#dc2626' }}>
+                ลบผู้ใช้...
+              </option>
               {users.map((user) => (
-                <option key={user.id} value={user.id}>
+                <option key={user.id} value={user.id} style={{ background: '#fff', color: '#1D1B52' }}>
                   {user.first_name} {user.last_name} — ID {user.id}
                 </option>
               ))}
             </select>
-            {/* Trash icon left */}
+            {/* Trash icon */}
             <div style={{
-              position: 'absolute', left: '0.625rem', top: '50%', transform: 'translateY(-50%)',
-              pointerEvents: 'none', color: '#dc2626', opacity: 0.6,
+              position: 'absolute', left: '0.5625rem', top: '50%', transform: 'translateY(-50%)',
+              pointerEvents: 'none', color: 'rgba(255,255,255,0.75)',
             }}>
-              <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5"
                   d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
             </div>
-            {/* Chevron right */}
+            {/* Chevron */}
             <div style={{
-              position: 'absolute', right: '0.5rem', top: '50%', transform: 'translateY(-50%)',
-              pointerEvents: 'none', color: 'rgba(220,38,38,0.4)',
+              position: 'absolute', right: '0.4375rem', top: '50%', transform: 'translateY(-50%)',
+              pointerEvents: 'none', color: 'rgba(255,255,255,0.6)',
             }}>
-              <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
               </svg>
             </div>
           </div>
         </div>
 
-        {/* Logout */}
-        <button
-          id="nav-logout"
-          onClick={logout}
-          aria-label="ออกจากระบบ"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.375rem',
-            padding: '0.4375rem 0.875rem',
-            background: 'transparent',
-            border: '1.5px solid rgba(220,38,38,0.20)',
-            borderRadius: '8px',
-            color: '#dc2626',
-            fontSize: '0.8125rem',
-            fontWeight: 700,
-            fontFamily: 'inherit',
-            cursor: 'pointer',
-            transition: 'background 0.15s, border-color 0.15s, color 0.15s',
-            flexShrink: 0,
-            whiteSpace: 'nowrap',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = '#dc2626';
-            e.currentTarget.style.color = '#ffffff';
-            e.currentTarget.style.borderColor = '#dc2626';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'transparent';
-            e.currentTarget.style.color = '#dc2626';
-            e.currentTarget.style.borderColor = 'rgba(220,38,38,0.20)';
-          }}
-        >
-          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5"
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-          </svg>
-          <span>ออกจากระบบ</span>
-        </button>
+        {/* ── Logout — formal grey button ── */}
+        <LogoutButton onLogout={logout} />
 
       </div>
     </nav>
+  );
+}
+
+function LogoutButton({ onLogout }: { onLogout: () => void }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <button
+      id="nav-logout"
+      onClick={onLogout}
+      aria-label="ออกจากระบบ"
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        display: 'flex', alignItems: 'center', gap: '0.375rem',
+        padding: '0.4375rem 0.875rem',
+        background: hov ? '#4b5563' : '#6b7280',
+        border: 'none',
+        borderRadius: '8px',
+        color: '#ffffff',
+        fontSize: '0.8125rem', fontWeight: 700,
+        fontFamily: 'inherit', cursor: 'pointer',
+        transition: 'background 0.15s',
+        flexShrink: 0, whiteSpace: 'nowrap',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
+      }}
+    >
+      <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5"
+          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+      </svg>
+      <span>ออกจากระบบ</span>
+    </button>
   );
 }

@@ -125,24 +125,30 @@ export default function DashboardPage() {
           /* Skeleton */
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-            gap: '1rem',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '1.25rem',
           }}>
-            {[...Array(6)].map((_, i) => (
+            {[...Array(8)].map((_, i) => (
               <div key={i} style={{
                 background: '#ffffff',
-                border: '1.5px solid rgba(29,27,82,0.08)',
+                border: '1.5px solid rgba(29,27,82,0.07)',
                 borderRadius: '16px',
-                padding: '1.5rem',
+                padding: '1.625rem',
+                boxShadow: '0 2px 8px rgba(29,27,82,0.04)',
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                  <div className="skeleton" style={{ width: '52px', height: '52px', borderRadius: '50%', flexShrink: 0 }} />
-                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <div className="skeleton" style={{ height: '14px', width: '70%' }} />
-                    <div className="skeleton" style={{ height: '11px', width: '55%' }} />
-                  </div>
+                {/* Avatar skeleton */}
+                <div className="skeleton" style={{ width: '64px', height: '64px', borderRadius: '50%', margin: '0 auto 1rem' }} />
+                {/* Text skeletons */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+                  <div className="skeleton" style={{ height: '14px', width: '65%' }} />
+                  <div className="skeleton" style={{ height: '11px', width: '80%' }} />
+                  <div className="skeleton" style={{ height: '10px', width: '30%' }} />
                 </div>
-                <div className="skeleton" style={{ height: '36px', borderRadius: '8px' }} />
+                {/* Button skeletons */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                  <div className="skeleton" style={{ height: '34px', borderRadius: '8px' }} />
+                  <div className="skeleton" style={{ height: '34px', borderRadius: '8px' }} />
+                </div>
               </div>
             ))}
           </div>
@@ -176,11 +182,11 @@ export default function DashboardPage() {
             </p>
           </div>
         ) : (
-          /* Cards grid */
+          /* Cards grid — 4-column balanced */
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-            gap: '1rem',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '1.25rem',
           }}>
             {users.map((user) => (
               <UserCard
@@ -299,100 +305,111 @@ function UserCard({ user, onEdit, onDelete }: UserCardProps) {
 
   return (
     <div
-      className="card"
-      style={{
-        padding: '1.25rem',
-        display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-        borderColor: hovered ? 'rgba(29,27,82,0.22)' : undefined,
-        boxShadow: hovered ? '0 4px 20px rgba(29,27,82,0.07)' : undefined,
-      }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      style={{
+        background: '#ffffff',
+        border: `1.5px solid ${hovered ? 'rgba(29,27,82,0.18)' : 'rgba(29,27,82,0.08)'}`,
+        borderRadius: '16px',
+        padding: '1.625rem 1.5rem 1.375rem',
+        display: 'flex', flexDirection: 'column', alignItems: 'center',
+        textAlign: 'center',
+        boxShadow: hovered
+          ? '0 8px 28px rgba(29,27,82,0.10)'
+          : '0 2px 8px rgba(29,27,82,0.05)',
+        transition: 'border-color 0.2s, box-shadow 0.2s',
+      }}
     >
-      {/* User info */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem', marginBottom: '1rem' }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={user.avatar}
-          alt={user.first_name}
-          style={{
-            width: '52px', height: '52px',
-            borderRadius: '50%',
-            objectFit: 'cover',
-            border: `2px solid ${hovered ? 'rgba(29,27,82,0.15)' : 'rgba(29,27,82,0.08)'}`,
-            transition: 'border-color 0.2s',
-            flexShrink: 0,
-          }}
-        />
-        <div style={{ overflow: 'hidden' }}>
-          <p style={{
-            fontWeight: 800, fontSize: '0.9375rem',
-            color: '#1D1B52', margin: '0 0 0.25rem',
-            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-          }}>
-            {user.first_name} {user.last_name}
-          </p>
-          <p style={{
-            fontSize: '0.75rem', color: 'rgba(29,27,82,0.45)',
-            margin: '0 0 0.375rem',
-            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-          }}>
-            {user.email}
-          </p>
-          <span className="badge">ID: {user.id}</span>
-        </div>
+      {/* ── Avatar — clean, no overlay text ── */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={user.avatar}
+        alt={`${user.first_name} ${user.last_name}`}
+        style={{
+          width: '64px', height: '64px',
+          borderRadius: '50%', objectFit: 'cover',
+          border: '2.5px solid rgba(29,27,82,0.08)',
+          marginBottom: '1rem',
+          flexShrink: 0,
+        }}
+      />
+
+      {/* ── Text hierarchy ── */}
+      <div style={{ width: '100%', marginBottom: '1.125rem' }}>
+        {/* Full name — primary */}
+        <p style={{
+          fontWeight: 800, fontSize: '0.9375rem', color: '#1D1B52',
+          margin: '0 0 0.25rem',
+          overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+        }}>
+          {user.first_name} {user.last_name}
+        </p>
+        {/* Email — secondary */}
+        <p style={{
+          fontSize: '0.75rem', color: 'rgba(29,27,82,0.45)',
+          margin: '0 0 0.5rem',
+          overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+        }}>
+          {user.email}
+        </p>
+        {/* ID — tertiary, small grey */}
+        <span style={{
+          fontSize: '0.625rem', fontWeight: 600,
+          color: 'rgba(29,27,82,0.28)',
+          letterSpacing: '0.04em',
+          textTransform: 'uppercase',
+        }}>
+          ID {user.id}
+        </span>
       </div>
 
-      {/* Actions */}
+      {/* ── Solid action buttons ── */}
       <div style={{
         display: 'grid', gridTemplateColumns: '1fr 1fr',
-        gap: '0.5rem',
-        paddingTop: '0.875rem',
+        gap: '0.5rem', width: '100%',
+        paddingTop: '1rem',
         borderTop: '1.5px solid rgba(29,27,82,0.06)',
       }}>
-        <ActionButton
+        <SolidActionButton
           onClick={onEdit}
+          color="#1D1B52"
+          hoverColor="#2d2a7a"
           icon={
-            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5"
                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
             </svg>
           }
           label="แก้ไข"
-          baseColor="rgba(29,27,82,0.55)"
-          hoverBg="rgba(29,27,82,0.06)"
-          hoverColor="#1D1B52"
         />
-        <ActionButton
+        <SolidActionButton
           onClick={onDelete}
+          color="#dc2626"
+          hoverColor="#b91c1c"
           icon={
-            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5"
                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
           }
           label="ลบออก"
-          baseColor="rgba(220,38,38,0.55)"
-          hoverBg="rgba(220,38,38,0.06)"
-          hoverColor="#dc2626"
         />
       </div>
     </div>
   );
 }
 
-interface ActionButtonProps {
+/* ── Solid Action Button ── */
+interface SolidActionButtonProps {
   onClick: () => void;
   icon: React.ReactNode;
   label: string;
-  baseColor: string;
-  hoverBg: string;
+  color: string;
   hoverColor: string;
 }
 
-function ActionButton({ onClick, icon, label, baseColor, hoverBg, hoverColor }: ActionButtonProps) {
+function SolidActionButton({ onClick, icon, label, color, hoverColor }: SolidActionButtonProps) {
   const [hov, setHov] = useState(false);
-
   return (
     <button
       onClick={onClick}
@@ -400,17 +417,17 @@ function ActionButton({ onClick, icon, label, baseColor, hoverBg, hoverColor }: 
       onMouseLeave={() => setHov(false)}
       style={{
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        gap: '0.375rem',
-        padding: '0.5rem 0',
-        background: hov ? hoverBg : 'transparent',
-        border: '1.5px solid rgba(29,27,82,0.08)',
+        gap: '0.3125rem',
+        padding: '0.5625rem 0',
+        background: hov ? hoverColor : color,
+        border: 'none',
         borderRadius: '8px',
-        color: hov ? hoverColor : baseColor,
-        fontSize: '0.75rem',
-        fontWeight: 700,
-        fontFamily: 'inherit',
-        cursor: 'pointer',
-        transition: 'all 0.15s',
+        color: '#ffffff',
+        fontSize: '0.75rem', fontWeight: 700,
+        fontFamily: 'inherit', cursor: 'pointer',
+        transition: 'background 0.15s, transform 0.12s',
+        transform: hov ? 'scale(1.02)' : 'scale(1)',
+        boxShadow: hov ? `0 4px 12px ${color}44` : `0 1px 3px ${color}33`,
       }}
     >
       {icon}

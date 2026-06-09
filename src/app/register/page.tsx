@@ -126,7 +126,7 @@ export default function RegisterPage() {
           </div>
 
           <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.75rem' }}>
-            © 2025 TestDashboard
+            © 2026 TestDashboard
           </p>
         </div>
 
