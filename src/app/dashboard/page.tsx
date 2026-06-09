@@ -206,29 +206,30 @@ export default function DashboardPage() {
             gap: '0.75rem',
             marginTop: '2.5rem',
           }}>
-            <button
-              id="pagination-prev"
-              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-              disabled={currentPage === 1}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '0.375rem',
-                padding: '0.5rem 1rem',
-                background: '#ffffff',
-                border: '1.5px solid rgba(29,27,82,0.12)',
-                borderRadius: '8px',
-                color: currentPage === 1 ? 'rgba(29,27,82,0.25)' : '#1D1B52',
-                fontSize: '0.8125rem',
-                fontWeight: 700,
-                fontFamily: 'inherit',
-                cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                transition: 'all 0.15s',
-              }}
-            >
-              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
-              </svg>
-              ก่อนหน้า
-            </button>
+            {currentPage > 1 && (
+              <button
+                id="pagination-prev"
+                onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '0.375rem',
+                  padding: '0.5rem 1rem',
+                  background: '#ffffff',
+                  border: '1.5px solid rgba(29,27,82,0.12)',
+                  borderRadius: '8px',
+                  color: '#1D1B52',
+                  fontSize: '0.8125rem',
+                  fontWeight: 700,
+                  fontFamily: 'inherit',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                }}
+              >
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+                </svg>
+                ก่อนหน้า
+              </button>
+            )}
 
             <span style={{
               padding: '0.5rem 1rem',
@@ -243,29 +244,30 @@ export default function DashboardPage() {
               {currentPage} / {totalPages}
             </span>
 
-            <button
-              id="pagination-next"
-              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '0.375rem',
-                padding: '0.5rem 1rem',
-                background: '#ffffff',
-                border: '1.5px solid rgba(29,27,82,0.12)',
-                borderRadius: '8px',
-                color: currentPage === totalPages ? 'rgba(29,27,82,0.25)' : '#1D1B52',
-                fontSize: '0.8125rem',
-                fontWeight: 700,
-                fontFamily: 'inherit',
-                cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                transition: 'all 0.15s',
-              }}
-            >
-              ถัดไป
-              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+            {currentPage < totalPages && (
+              <button
+                id="pagination-next"
+                onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '0.375rem',
+                  padding: '0.5rem 1rem',
+                  background: '#ffffff',
+                  border: '1.5px solid rgba(29,27,82,0.12)',
+                  borderRadius: '8px',
+                  color: '#1D1B52',
+                  fontSize: '0.8125rem',
+                  fontWeight: 700,
+                  fontFamily: 'inherit',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                }}
+              >
+                ถัดไป
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            )}
           </div>
         )}
       </main>
