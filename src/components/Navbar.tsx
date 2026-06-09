@@ -68,19 +68,6 @@ export default function Navbar({ users, onEditUser, onDeleteUser }: NavbarProps)
           flexShrink: 1,
         }}>
 
-          {/* Section label */}
-          <span style={{
-            fontSize: '0.625rem', fontWeight: 800,
-            textTransform: 'uppercase', letterSpacing: '0.08em',
-            color: 'rgba(29,27,82,0.30)',
-            paddingLeft: '0.375rem', paddingRight: '0.125rem',
-            whiteSpace: 'nowrap', flexShrink: 0,
-          }}>
-            Bulk Actions
-          </span>
-
-          {/* Separator */}
-          <div style={{ width: '1px', height: '20px', background: 'rgba(29,27,82,0.10)', flexShrink: 0 }} />
 
           {/* Edit selector — styled as a solid pill-button */}
           <div style={{ position: 'relative', flexShrink: 0 }}>

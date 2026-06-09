@@ -202,78 +202,106 @@ export default function DashboardPage() {
         {/* Pagination */}
         {!isDataLoading && totalPages > 1 && (
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr auto 1fr',
-            alignItems: 'center',
-            gap: '0.75rem',
+            display: 'flex',
+            justifyContent: 'center',
             marginTop: '2.5rem',
             width: '100%',
-            maxWidth: '360px',
-            margin: '2.5rem auto 0',
           }}>
-            <button
-              id="pagination-prev"
-              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '0.375rem',
-                padding: '0.5rem 1rem',
-                background: '#ffffff',
-                border: '1.5px solid rgba(29,27,82,0.12)',
-                borderRadius: '8px',
-                color: '#1D1B52',
-                fontSize: '0.8125rem',
-                fontWeight: 700,
-                fontFamily: 'inherit',
-                cursor: 'pointer',
-                transition: 'all 0.15s',
-                visibility: currentPage > 1 ? 'visible' : 'hidden',
-                justifySelf: 'end',
-              }}
-            >
-              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
-              </svg>
-              ก่อนหน้า
-            </button>
-
-            <span style={{
-              padding: '0.5rem 1rem',
-              background: '#1D1B52',
-              color: '#ffffff',
-              fontSize: '0.8125rem',
-              fontWeight: 700,
-              borderRadius: '8px',
-              minWidth: '80px',
-              textAlign: 'center',
-              justifySelf: 'center',
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              background: '#ffffff',
+              border: '1px solid rgba(29, 27, 82, 0.08)',
+              borderRadius: '9999px',
+              padding: '0.375rem 1rem',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.04)',
+              gap: '0.75rem',
             }}>
-              {currentPage} / {totalPages}
-            </span>
+              <button
+                id="pagination-prev"
+                onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#718096',
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  fontFamily: 'inherit',
+                  cursor: 'pointer',
+                  padding: '0.25rem 0.75rem',
+                  transition: 'color 0.15s',
+                  visibility: currentPage > 1 ? 'visible' : 'hidden',
+                  outline: 'none',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#1D1B52')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '#718096')}
+              >
+                &lt; Prev
+              </button>
 
-            <button
-              id="pagination-next"
-              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '0.375rem',
-                padding: '0.5rem 1rem',
-                background: '#ffffff',
-                border: '1.5px solid rgba(29,27,82,0.12)',
-                borderRadius: '8px',
-                color: '#1D1B52',
-                fontSize: '0.8125rem',
-                fontWeight: 700,
-                fontFamily: 'inherit',
-                cursor: 'pointer',
-                transition: 'all 0.15s',
-                visibility: currentPage < totalPages ? 'visible' : 'hidden',
-                justifySelf: 'start',
-              }}
-            >
-              ถัดไป
-              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                const isActive = page === currentPage;
+                return (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '50%',
+                      border: 'none',
+                      background: isActive ? '#1D1B52' : 'none',
+                      color: isActive ? '#ffffff' : '#718096',
+                      fontSize: '0.875rem',
+                      fontWeight: isActive ? 700 : 600,
+                      fontFamily: 'inherit',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.15s',
+                      outline: 'none',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.color = '#1D1B52';
+                        e.currentTarget.style.background = 'rgba(29, 27, 82, 0.04)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.color = '#718096';
+                        e.currentTarget.style.background = 'none';
+                      }
+                    }}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+
+              <button
+                id="pagination-next"
+                onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#718096',
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  fontFamily: 'inherit',
+                  cursor: 'pointer',
+                  padding: '0.25rem 0.75rem',
+                  transition: 'color 0.15s',
+                  visibility: currentPage < totalPages ? 'visible' : 'hidden',
+                  outline: 'none',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#1D1B52')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '#718096')}
+              >
+                Next &gt;
+              </button>
+            </div>
           </div>
         )}
       </main>
