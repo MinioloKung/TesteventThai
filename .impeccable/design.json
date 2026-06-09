@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-09T15:06:40Z",
+  "title": "Design System: TestDashboard",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Indigo Precision",
+        "canonical": "oklch(58.6% 0.236 268.4)",
+        "tonalRamp": [
+          "oklch(20% 0.1 268)",
+          "oklch(30% 0.15 268)",
+          "oklch(40% 0.2 268)",
+          "oklch(50% 0.23 268)",
+          "oklch(58.6% 0.236 268.4)",
+          "oklch(70% 0.18 268)",
+          "oklch(80% 0.12 268)",
+          "oklch(90% 0.05 268)"
+        ]
+      },
+      "neutral-bg": {
+        "role": "neutral",
+        "displayName": "Slate Canvas",
+        "canonical": "oklch(97.3% 0.013 234.3)",
+        "tonalRamp": [
+          "oklch(12% 0.01 230)",
+          "oklch(25% 0.01 230)",
+          "oklch(40% 0.01 230)",
+          "oklch(55% 0.01 230)",
+          "oklch(70% 0.01 230)",
+          "oklch(85% 0.01 230)",
+          "oklch(93% 0.01 230)",
+          "oklch(97.3% 0.013 234.3)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero headers and page titles"
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Paragraphs and table/grid values"
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Badges and uppercase tags"
+      }
+    },
+    "shadows": [
+      {
+        "name": "modal-elevation",
+        "value": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+        "purpose": "Elevation for dialog modals and overlay components."
+      }
+    ],
+    "motion": [
+      {
+        "name": "standard-easing",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Default transition ease for animations."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Standard action button with slight curve and shadow transition on hover.",
+      "html": "<button class=\"ds-btn-primary\">บันทึกข้อมูล</button>",
+      "css": ".ds-btn-primary { background: #4f46e5; color: #ffffff; padding: 10px 20px; font-size: 12px; font-weight: 700; border: none; border-radius: 12px; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; } .ds-btn-primary:hover { background: #4338ca; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }"
+    },
+    {
+      "name": "User Card",
+      "kind": "card",
+      "description": "Standard container card with 1px border outline and group hover outline effect.",
+      "html": "<div class=\"ds-user-card\"><div class=\"ds-avatar-container\"><img src=\"https://reqres.in/img/faces/1-image.jpg\" class=\"ds-avatar\" /></div><div><h4 class=\"ds-user-name\">George Bluth</h4><p class=\"ds-user-email\">george.bluth@reqres.in</p></div></div>",
+      "css": ".ds-user-card { display: flex; align-items: center; gap: 16px; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.5); border-radius: 16px; padding: 24px; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); } .ds-user-card:hover { border-color: rgba(79, 70, 229, 0.5); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); } .ds-avatar { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; } .ds-user-name { font-weight: 700; color: #0f172a; margin: 0; } .ds-user-email { font-size: 12px; color: #94a3b8; margin: 2px 0 0 0; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Blueprint Console",
+    "overview": "The Blueprint Console is an administrative system design characterized by precise grid alignments, crisp typography, clean slate surfaces, and intentional indigo highlights. It is optimized for developer tools and user directories, trading decorative gradients and heavy shadows for typographic hierarchy and clear layout borders.",
+    "keyCharacteristics": [
+      "Crisp Alignment: Grid-aligned elements with strict borders and consistent margins.",
+      "Flat Layout: Surfaces are layered using background tones and 1px lines rather than heavy shadows.",
+      "Restrained Accents: Color is applied only to callouts, interactive states, and active items."
+    ],
+    "rules": [
+      {
+        "name": "The Indigo-Constraint Rule",
+        "body": "Indigo is reserved only for primary calls-to-action, success states, and focus rings. It must never cover more than 10% of any given screen layout.",
+        "section": "colors"
+      },
+      {
+        "name": "The Line-Length Rule",
+        "body": "Long form text and descriptions must have a maximum width of 70 characters (70ch) to prevent horizontal eye fatigue.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-by-Default Rule",
+        "body": "Cards, tables, and buttons remain flat. Shadows are strictly prohibited at rest and are only applied to floating elements like dialog modals and toast alerts.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use strict 1px borders to separate content containers instead of shadows.",
+      "Do align all text elements to a consistent grid.",
+      "Do display ID tags using uppercase labels.",
+      "Do limit border-radius values to a maximum of 16px."
+    ],
+    "donts": [
+      "Don't use text-clipping with gradients (no text-transparent bg-clip-text).",
+      "Don't use side-stripe color accents on cards or containers.",
+      "Don't use decorative shadows (M >= 16px blur) on standard data cards.",
+      "Don't allow cards to have a border-radius of 32px or more."
+    ]
+  }
+}
