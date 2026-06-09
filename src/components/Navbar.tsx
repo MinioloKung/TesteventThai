@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { User } from '@/types';
 
@@ -10,22 +10,247 @@ interface NavbarProps {
   onDeleteUser: (user: User) => void;
 }
 
+/* ─────────────────────────────────────────────
+   Custom Dropdown — reusable
+───────────────────────────────────────────── */
+interface DropdownProps {
+  id: string;
+  placeholder: string;
+  users: User[];
+  accentColor: string;         // e.g. '#1D1B52'
+  iconPath: string;
+  onSelect: (user: User) => void;
+}
+
+function CustomDropdown({ id, placeholder, users, accentColor, iconPath, onSelect }: DropdownProps) {
+  const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState<number | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const handleSelect = (user: User) => {
+    onSelect(user);
+    setOpen(false);
+  };
+
+  return (
+    <div ref={ref} style={{ position: 'relative', flexShrink: 0 }}>
+      {/* Trigger button */}
+      <button
+        id={id}
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          width: '168px',
+          padding: '0.4rem 0.625rem',
+          background: open ? accentColor : 'transparent',
+          border: `1.5px solid ${open ? accentColor : 'rgba(29,27,82,0.12)'}`,
+          borderRadius: '8px',
+          color: open ? '#ffffff' : '#1D1B52',
+          fontSize: '0.75rem',
+          fontWeight: 600,
+          fontFamily: 'inherit',
+          cursor: 'pointer',
+          outline: 'none',
+          transition: 'all 0.15s ease',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Leading icon */}
+        <span style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexShrink: 0,
+          width: '20px', height: '20px',
+          borderRadius: '6px',
+          background: open ? 'rgba(255,255,255,0.15)' : `${accentColor}18`,
+          color: open ? '#fff' : accentColor,
+          transition: 'all 0.15s ease',
+        }}>
+          <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d={iconPath} />
+          </svg>
+        </span>
+        {/* Label */}
+        <span style={{
+          flex: 1,
+          textAlign: 'left',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          letterSpacing: '-0.01em',
+        }}>
+          {placeholder}
+        </span>
+        {/* Chevron */}
+        <svg
+          width="11" height="11"
+          fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          style={{
+            flexShrink: 0,
+            transition: 'transform 0.2s ease',
+            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+            opacity: 0.6,
+          }}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {/* Dropdown panel */}
+      {open && (
+        <div
+          role="listbox"
+          style={{
+            position: 'absolute',
+            top: 'calc(100% + 6px)',
+            left: 0,
+            zIndex: 200,
+            width: '240px',
+            background: '#ffffff',
+            borderRadius: '12px',
+            border: '1px solid rgba(29,27,82,0.08)',
+            boxShadow: '0 8px 32px rgba(29,27,82,0.12), 0 2px 8px rgba(0,0,0,0.06)',
+            overflow: 'hidden',
+            animation: 'dropdownIn 0.15s ease',
+          }}
+        >
+          {/* Panel header */}
+          <div style={{
+            padding: '0.625rem 0.875rem 0.5rem',
+            borderBottom: '1px solid rgba(29,27,82,0.06)',
+          }}>
+            <span style={{
+              fontSize: '0.625rem',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: accentColor,
+              opacity: 0.7,
+            }}>
+              {placeholder}
+            </span>
+          </div>
+
+          {/* User list */}
+          <div style={{ maxHeight: '220px', overflowY: 'auto', padding: '0.375rem' }}>
+            {users.length === 0 ? (
+              <div style={{
+                padding: '0.75rem 0.5rem',
+                textAlign: 'center',
+                fontSize: '0.75rem',
+                color: 'rgba(29,27,82,0.35)',
+              }}>
+                ไม่มีข้อมูลผู้ใช้
+              </div>
+            ) : (
+              users.map((user) => (
+                <button
+                  key={user.id}
+                  role="option"
+                  onClick={() => handleSelect(user)}
+                  onMouseEnter={() => setHovered(user.id)}
+                  onMouseLeave={() => setHovered(null)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.625rem',
+                    width: '100%',
+                    padding: '0.4375rem 0.5rem',
+                    background: hovered === user.id ? `${accentColor}0e` : 'transparent',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    transition: 'background 0.1s',
+                    outline: 'none',
+                  }}
+                >
+                  {/* Avatar */}
+                  <img
+                    src={user.avatar}
+                    alt={`${user.first_name} ${user.last_name}`}
+                    style={{
+                      width: '28px', height: '28px',
+                      borderRadius: '50%',
+                      flexShrink: 0,
+                      objectFit: 'cover',
+                      border: `1.5px solid ${hovered === user.id ? accentColor + '44' : 'rgba(29,27,82,0.08)'}`,
+                      transition: 'border-color 0.1s',
+                    }}
+                  />
+                  {/* Name + id */}
+                  <div style={{ flex: 1, overflow: 'hidden' }}>
+                    <div style={{
+                      fontSize: '0.8rem',
+                      fontWeight: 600,
+                      color: '#1D1B52',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      letterSpacing: '-0.01em',
+                    }}>
+                      {user.first_name} {user.last_name}
+                    </div>
+                    <div style={{
+                      fontSize: '0.6875rem',
+                      color: 'rgba(29,27,82,0.40)',
+                      fontWeight: 500,
+                    }}>
+                      ID {user.id} · {user.email.split('@')[0]}
+                    </div>
+                  </div>
+                  {/* Action arrow */}
+                  <svg
+                    width="12" height="12"
+                    fill="none" stroke={accentColor}
+                    viewBox="0 0 24 24"
+                    style={{
+                      flexShrink: 0,
+                      opacity: hovered === user.id ? 0.8 : 0,
+                      transition: 'opacity 0.1s',
+                    }}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Keyframe animation injected once */}
+      <style>{`
+        @keyframes dropdownIn {
+          from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+          to   { opacity: 1; transform: translateY(0)   scale(1); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   Navbar
+───────────────────────────────────────────── */
 export default function Navbar({ users, onEditUser, onDeleteUser }: NavbarProps) {
   const { logout } = useAuth();
-  const [selectedEditId, setSelectedEditId] = useState('');
-  const [selectedDeleteId, setSelectedDeleteId] = useState('');
-
-  const handleEditSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const userId = Number(e.target.value);
-    const user = users.find((u) => u.id === userId);
-    if (user) { onEditUser(user); setSelectedEditId(''); }
-  };
-
-  const handleDeleteSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const userId = Number(e.target.value);
-    const user = users.find((u) => u.id === userId);
-    if (user) { onDeleteUser(user); setSelectedDeleteId(''); }
-  };
 
   return (
     <nav style={{
@@ -61,120 +286,36 @@ export default function Navbar({ users, onEditUser, onDeleteUser }: NavbarProps)
         <div style={{
           display: 'flex', alignItems: 'center', gap: '0.5rem',
           padding: '0.3125rem',
-          background: 'rgba(29,27,82,0.04)',
+          background: 'rgba(29,27,82,0.03)',
           border: '1.5px solid rgba(29,27,82,0.08)',
           borderRadius: '10px',
-          overflowX: 'auto',
-          flexShrink: 1,
+          flexShrink: 0,
         }}>
+          {/* Edit dropdown */}
+          <CustomDropdown
+            id="nav-edit-dropdown"
+            placeholder="แก้ไขผู้ใช้"
+            users={users}
+            accentColor="#1D1B52"
+            iconPath="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+            onSelect={onEditUser}
+          />
 
+          {/* Divider */}
+          <div style={{ width: '1px', height: '22px', background: 'rgba(29,27,82,0.08)', flexShrink: 0 }} />
 
-          {/* Edit selector — styled as a solid pill-button */}
-          <div style={{ position: 'relative', flexShrink: 0 }}>
-            <select
-              id="nav-edit-select"
-              value={selectedEditId}
-              onChange={handleEditSelect}
-              aria-label="เลือกผู้ใช้เพื่อแก้ไขข้อมูล"
-              style={{
-                appearance: 'none',
-                width: '160px',
-                textOverflow: 'ellipsis',
-                paddingLeft: '1.875rem', paddingRight: '1.75rem',
-                paddingTop: '0.4rem', paddingBottom: '0.4rem',
-                background: '#1D1B52',
-                border: 'none',
-                borderRadius: '7px',
-                fontSize: '0.75rem', fontWeight: 700,
-                color: '#ffffff', fontFamily: 'inherit',
-                cursor: 'pointer', outline: 'none',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              <option value="" disabled style={{ background: '#fff', color: '#1D1B52' }}>
-                แก้ไขผู้ใช้...
-              </option>
-              {users.map((user) => (
-                <option key={user.id} value={user.id} style={{ background: '#fff', color: '#1D1B52' }}>
-                  {user.first_name} {user.last_name} — ID {user.id}
-                </option>
-              ))}
-            </select>
-            {/* Pencil icon */}
-            <div style={{
-              position: 'absolute', left: '0.5625rem', top: '50%', transform: 'translateY(-50%)',
-              pointerEvents: 'none', color: 'rgba(255,255,255,0.75)',
-            }}>
-              <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5"
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-              </svg>
-            </div>
-            {/* Chevron */}
-            <div style={{
-              position: 'absolute', right: '0.4375rem', top: '50%', transform: 'translateY(-50%)',
-              pointerEvents: 'none', color: 'rgba(255,255,255,0.6)',
-            }}>
-              <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
-
-          {/* Delete selector — solid red */}
-          <div style={{ position: 'relative', flexShrink: 0 }}>
-            <select
-              id="nav-delete-select"
-              value={selectedDeleteId}
-              onChange={handleDeleteSelect}
-              aria-label="เลือกผู้ใช้เพื่อลบออกจากระบบ"
-              style={{
-                appearance: 'none',
-                width: '160px',
-                textOverflow: 'ellipsis',
-                paddingLeft: '1.875rem', paddingRight: '1.75rem',
-                paddingTop: '0.4rem', paddingBottom: '0.4rem',
-                background: '#dc2626',
-                border: 'none',
-                borderRadius: '7px',
-                fontSize: '0.75rem', fontWeight: 700,
-                color: '#ffffff', fontFamily: 'inherit',
-                cursor: 'pointer', outline: 'none',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              <option value="" disabled style={{ background: '#fff', color: '#dc2626' }}>
-                ลบผู้ใช้...
-              </option>
-              {users.map((user) => (
-                <option key={user.id} value={user.id} style={{ background: '#fff', color: '#1D1B52' }}>
-                  {user.first_name} {user.last_name} — ID {user.id}
-                </option>
-              ))}
-            </select>
-            {/* Trash icon */}
-            <div style={{
-              position: 'absolute', left: '0.5625rem', top: '50%', transform: 'translateY(-50%)',
-              pointerEvents: 'none', color: 'rgba(255,255,255,0.75)',
-            }}>
-              <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-              </svg>
-            </div>
-            {/* Chevron */}
-            <div style={{
-              position: 'absolute', right: '0.4375rem', top: '50%', transform: 'translateY(-50%)',
-              pointerEvents: 'none', color: 'rgba(255,255,255,0.6)',
-            }}>
-              <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
+          {/* Delete dropdown */}
+          <CustomDropdown
+            id="nav-delete-dropdown"
+            placeholder="ลบผู้ใช้"
+            users={users}
+            accentColor="#dc2626"
+            iconPath="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            onSelect={onDeleteUser}
+          />
         </div>
 
-        {/* ── Logout — formal grey button ── */}
+        {/* ── Logout ── */}
         <LogoutButton onLogout={logout} />
 
       </div>
@@ -182,6 +323,9 @@ export default function Navbar({ users, onEditUser, onDeleteUser }: NavbarProps)
   );
 }
 
+/* ─────────────────────────────────────────────
+   Logout Button
+───────────────────────────────────────────── */
 function LogoutButton({ onLogout }: { onLogout: () => void }) {
   const [hov, setHov] = useState(false);
   return (
