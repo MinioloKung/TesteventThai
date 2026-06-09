@@ -220,21 +220,29 @@ export default function DashboardPage() {
               <button
                 id="pagination-prev"
                 onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                disabled={currentPage === 1}
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: '#718096',
+                  color: currentPage === 1 ? 'rgba(113, 128, 150, 0.35)' : '#718096',
                   fontSize: '0.875rem',
                   fontWeight: 600,
                   fontFamily: 'inherit',
-                  cursor: 'pointer',
+                  cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
                   padding: '0.25rem 0.75rem',
                   transition: 'color 0.15s',
-                  visibility: currentPage > 1 ? 'visible' : 'hidden',
                   outline: 'none',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#1D1B52')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#718096')}
+                onMouseEnter={(e) => {
+                  if (currentPage > 1) {
+                    e.currentTarget.style.color = '#1D1B52';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (currentPage > 1) {
+                    e.currentTarget.style.color = '#718096';
+                  }
+                }}
               >
                 &lt; Prev
               </button>
@@ -283,21 +291,29 @@ export default function DashboardPage() {
               <button
                 id="pagination-next"
                 onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                disabled={currentPage === totalPages}
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: '#718096',
+                  color: currentPage === totalPages ? 'rgba(113, 128, 150, 0.35)' : '#718096',
                   fontSize: '0.875rem',
                   fontWeight: 600,
                   fontFamily: 'inherit',
-                  cursor: 'pointer',
+                  cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
                   padding: '0.25rem 0.75rem',
                   transition: 'color 0.15s',
-                  visibility: currentPage < totalPages ? 'visible' : 'hidden',
                   outline: 'none',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#1D1B52')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#718096')}
+                onMouseEnter={(e) => {
+                  if (currentPage < totalPages) {
+                    e.currentTarget.style.color = '#1D1B52';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (currentPage < totalPages) {
+                    e.currentTarget.style.color = '#718096';
+                  }
+                }}
               >
                 Next &gt;
               </button>
