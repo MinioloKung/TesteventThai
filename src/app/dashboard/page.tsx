@@ -15,6 +15,7 @@ export default function DashboardPage() {
   const router = useRouter();
 
   const [users, setUsers] = useState<User[]>([]);
+  const [allUsers, setAllUsers] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isDataLoading, setIsDataLoading] = useState(true);
@@ -36,6 +37,12 @@ export default function DashboardPage() {
     }
   }, [currentPage, isAuthenticated]);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      apiService.getAllUsers().then(setAllUsers).catch(console.error);
+    }
+  }, [isAuthenticated]);
+
   const fetchUsers = async (page: number) => {
     setIsDataLoading(true);
     try {
@@ -56,11 +63,13 @@ export default function DashboardPage() {
 
   const handleEditSuccess = (updatedUser: User, info: UserUpdateResponse) => {
     setUsers((prev) => prev.map((u) => (u.id === updatedUser.id ? updatedUser : u)));
+    setAllUsers((prev) => prev.map((u) => (u.id === updatedUser.id ? updatedUser : u)));
     showToast(`อัปเดต "${info.name}" (${info.job}) เรียบร้อยแล้ว`, 'success');
   };
 
   const handleDeleteSuccess = (deletedId: number) => {
     setUsers((prev) => prev.filter((u) => u.id !== deletedId));
+    setAllUsers((prev) => prev.filter((u) => u.id !== deletedId));
     showToast(`ลบสมาชิก ID ${deletedId} เรียบร้อยแล้ว`, 'success');
   };
 
@@ -91,7 +100,7 @@ export default function DashboardPage() {
 
   return (
     <div style={{ minHeight: '100dvh', background: '#f7f7fa', display: 'flex', flexDirection: 'column' }}>
-      <Navbar users={users} onEditUser={setEditUser} onDeleteUser={setDeleteUser} />
+      <Navbar users={allUsers} onEditUser={setEditUser} onDeleteUser={setDeleteUser} />
 
       <main style={{
         flex: 1,

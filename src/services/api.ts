@@ -82,6 +82,11 @@ export const apiService = {
     return handleResponse<RegisterResponse>(response);
   },
 
+  async getAllUsers(): Promise<User[]> {
+    await new Promise(resolve => setTimeout(resolve, 100));
+    return [...mockUsers];
+  },
+
   // Users Management (ปรับเปลี่ยนมาดึงจาก Mock Database เพื่อให้รองรับ 8 คนต่อหน้า และมี 3 หน้าตามรูป)
   async getUsers(page: number = 1): Promise<UserListResponse> {
     const perPage = 8;
