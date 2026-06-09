@@ -164,7 +164,7 @@ export default function DashboardPage() {
                 <div className="grid grid-cols-2 gap-2 mt-6 pt-4 border-t border-slate-100 dark:border-slate-700/60">
                   <button
                     onClick={() => setEditUser(user)}
-                    className="flex items-center justify-center gap-1.5 py-2 bg-slate-50 dark:bg-slate-900/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 text-slate-600 hover:text-indigo-600 dark:text-slate-300 dark:hover:text-indigo-400 text-xs font-semibold rounded-xl transition-all border border-slate-200/30 dark:border-slate-800/40 hover:border-indigo-500/20 cursor-pointer"
+                    className="flex items-center justify-center gap-1.5 py-2 bg-slate-50 dark:bg-slate-900/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 text-indigo-900/70 hover:text-indigo-700 dark:text-indigo-300/70 dark:hover:text-indigo-300 text-xs font-semibold rounded-xl transition-all border border-slate-200/30 dark:border-slate-800/40 hover:border-indigo-500/20 cursor-pointer"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -174,7 +174,7 @@ export default function DashboardPage() {
 
                   <button
                     onClick={() => setDeleteUser(user)}
-                    className="flex items-center justify-center gap-1.5 py-2 bg-slate-50 dark:bg-slate-900/60 hover:bg-rose-50 dark:hover:bg-rose-950/20 text-slate-600 hover:text-rose-600 dark:text-slate-300 dark:hover:text-rose-400 text-xs font-semibold rounded-xl transition-all border border-slate-200/30 dark:border-slate-800/40 hover:border-rose-500/20 cursor-pointer"
+                    className="flex items-center justify-center gap-1.5 py-2 bg-slate-50 dark:bg-slate-900/60 hover:bg-rose-50 dark:hover:bg-rose-950/20 text-rose-900/70 hover:text-rose-700 dark:text-rose-300/70 dark:hover:text-rose-300 text-xs font-semibold rounded-xl transition-all border border-slate-200/30 dark:border-slate-800/40 hover:border-rose-500/20 cursor-pointer"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
