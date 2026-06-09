@@ -15,7 +15,7 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email || !password || !confirmPassword) {
       setToast({ message: 'กรุณากรอกข้อมูลให้ครบถ้วน', type: 'error' });
       return;
@@ -42,97 +42,231 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center min-h-screen bg-gradient-to-tr from-indigo-50 via-slate-50 to-emerald-50 dark:from-slate-950 dark:via-slate-900 dark:to-zinc-900 px-4">
-      <div className="w-full max-w-md bg-white/70 dark:bg-slate-800/60 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 rounded-2xl p-8 shadow-2xl transition-all duration-300 animate-scale-up">
-        
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 text-white shadow-lg shadow-indigo-500/30 mb-4">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M18 9v3m0 0v3m0-3h3m-3h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-            </svg>
+    <>
+      <div style={{
+        minHeight: '100dvh',
+        display: 'flex',
+        alignItems: 'stretch',
+        background: '#ffffff',
+      }}>
+        {/* Left decorative panel — hidden on mobile */}
+        <div
+          aria-hidden="true"
+          style={{
+            display: 'none',
+            flex: '0 0 420px',
+            background: 'linear-gradient(160deg, #1D1B52 0%, #2d2a7a 100%)',
+            padding: '3rem 2.5rem',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            overflow: 'hidden',
+            position: 'relative',
+          }}
+          className="md-panel"
+        >
+          {/* Decorative circles */}
+          <div style={{
+            position: 'absolute', top: '-80px', right: '-80px',
+            width: '320px', height: '320px',
+            background: 'rgba(255,255,255,0.04)',
+            borderRadius: '50%',
+          }} />
+          <div style={{
+            position: 'absolute', bottom: '-60px', left: '-60px',
+            width: '240px', height: '240px',
+            background: 'rgba(255,255,255,0.04)',
+            borderRadius: '50%',
+          }} />
+
+          {/* Brand mark */}
+          <div>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              width: '44px', height: '44px',
+              background: 'rgba(255,255,255,0.12)',
+              borderRadius: '12px',
+              marginBottom: '1rem',
+            }}>
+              <svg width="22" height="22" fill="none" stroke="white" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+              </svg>
+            </div>
+            <h2 style={{ color: '#ffffff', fontSize: '1.5rem', fontWeight: 800, margin: '0 0 0.5rem' }}>
+              สมัครสมาชิก
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.875rem', lineHeight: 1.6 }}>
+              สร้างบัญชีใหม่เพื่อเข้าใช้งาน<br />TestDashboard
+            </p>
           </div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-800 dark:from-indigo-400 dark:to-indigo-200 bg-clip-text text-transparent">
-            สร้างบัญชีใหม่
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
-            ลงทะเบียนเข้าสู่ระบบทดสอบสำหรับจัดการสมาชิก
+
+          {/* Steps */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+            {[
+              'กรอกอีเมลและรหัสผ่าน',
+              'ยืนยันข้อมูลการสมัคร',
+              'เข้าสู่ระบบและจัดการสมาชิก',
+            ].map((text, i) => (
+              <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <div style={{
+                  width: '24px', height: '24px',
+                  background: 'rgba(255,255,255,0.15)',
+                  borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0,
+                  fontSize: '0.6875rem',
+                  fontWeight: 800,
+                  color: 'rgba(255,255,255,0.9)',
+                }}>
+                  {i + 1}
+                </div>
+                <span style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.8125rem' }}>{text}</span>
+              </div>
+            ))}
+          </div>
+
+          <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.75rem' }}>
+            © 2025 TestDashboard
           </p>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
-              อีเมล (Email)
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="example@reqres.in"
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white/50 dark:bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
-              required
-            />
+        {/* Right form panel */}
+        <div style={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '2rem 1.25rem',
+        }}>
+          <div className="animate-scale-up" style={{ width: '100%', maxWidth: '400px' }}>
+
+            {/* Header */}
+            <div style={{ marginBottom: '2rem' }}>
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: '0.625rem',
+                marginBottom: '0.5rem',
+              }}>
+                <div style={{
+                  width: '36px', height: '36px',
+                  background: '#1D1B52',
+                  borderRadius: '10px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <svg width="18" height="18" fill="none" stroke="white" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                      d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                  </svg>
+                </div>
+                <span style={{ fontWeight: 800, fontSize: '1.125rem', color: '#1D1B52' }}>
+                  TestDashboard
+                </span>
+              </div>
+              <h1 style={{
+                fontSize: '1.625rem',
+                fontWeight: 800,
+                color: '#1D1B52',
+                margin: '0 0 0.375rem',
+                lineHeight: 1.2,
+              }}>
+                สร้างบัญชีใหม่
+              </h1>
+              <p style={{ color: 'rgba(29,27,82,0.5)', fontSize: '0.875rem' }}>
+                ลงทะเบียนเข้าสู่ระบบทดสอบสำหรับจัดการสมาชิก
+              </p>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.125rem' }}>
+              <div>
+                <label htmlFor="reg-email" className="label">อีเมล (Email)</label>
+                <input
+                  id="reg-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="example@reqres.in"
+                  className="input-base"
+                  autoComplete="email"
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="reg-password" className="label">รหัสผ่าน (Password)</label>
+                <input
+                  id="reg-password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="input-base"
+                  autoComplete="new-password"
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="reg-confirm" className="label">ยืนยันรหัสผ่าน (Confirm Password)</label>
+                <input
+                  id="reg-confirm"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="input-base"
+                  autoComplete="new-password"
+                  required
+                />
+              </div>
+
+              <button
+                id="register-submit"
+                type="submit"
+                disabled={isSubmitting}
+                className="btn-primary"
+                style={{ width: '100%', marginTop: '0.375rem', padding: '0.875rem 1.5rem' }}
+              >
+                {isSubmitting ? (
+                  <div style={{
+                    width: '18px', height: '18px',
+                    border: '2px solid rgba(255,255,255,0.4)',
+                    borderTopColor: '#fff',
+                    borderRadius: '50%',
+                    animation: 'spin 0.75s linear infinite',
+                  }} />
+                ) : 'สมัครสมาชิก'}
+              </button>
+            </form>
+
+            {/* Footer */}
+            <p style={{
+              marginTop: '1.5rem',
+              textAlign: 'center',
+              fontSize: '0.8125rem',
+              color: 'rgba(29,27,82,0.5)',
+            }}>
+              มีบัญชีอยู่แล้ว?{' '}
+              <Link href="/login" style={{ color: '#1D1B52', fontWeight: 700, textDecoration: 'none' }}
+                onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+                onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+              >
+                เข้าสู่ระบบ
+              </Link>
+            </p>
           </div>
-
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
-              รหัสผ่าน (Password)
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white/50 dark:bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
-              ยืนยันรหัสผ่าน (Confirm Password)
-            </label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white/50 dark:bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white rounded-xl font-semibold shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/35 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-          >
-            {isSubmitting ? (
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            ) : (
-              'สมัครสมาชิก'
-            )}
-          </button>
-        </form>
-
-        {/* Footer Link */}
-        <div className="text-center mt-6 text-sm text-slate-500 dark:text-slate-400">
-          มีบัญชีอยู่แล้ว?{' '}
-          <Link href="/login" className="font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300">
-            เข้าสู่ระบบ
-          </Link>
         </div>
       </div>
 
       {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-        />
+        <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />
       )}
-    </div>
+
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @media (min-width: 768px) {
+          .md-panel { display: flex !important; }
+        }
+      `}</style>
+    </>
   );
 }

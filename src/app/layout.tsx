@@ -3,8 +3,8 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata: Metadata = {
-  title: "User Management App",
-  description: "Next.js & ReqRes User Management App",
+  title: "TestDashboard — User Management",
+  description: "A clean, high-end user management console powered by ReqRes API",
 };
 
 export default function RootLayout({
@@ -13,11 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className="h-full antialiased font-sans"
-    >
-      <body className="min-h-full flex flex-col bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+    <html lang="th" className="h-full">
+      <body className="min-h-full flex flex-col">
         <AuthProvider>
           {children}
         </AuthProvider>

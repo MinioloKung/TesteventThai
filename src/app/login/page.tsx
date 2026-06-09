@@ -37,103 +37,254 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center min-h-screen bg-gradient-to-tr from-indigo-50 via-slate-50 to-emerald-50 dark:from-slate-950 dark:via-slate-900 dark:to-zinc-900 px-4">
-      <div className="w-full max-w-md bg-white/70 dark:bg-slate-800/60 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 rounded-2xl p-8 shadow-2xl transition-all duration-300 animate-scale-up">
-        
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 text-white shadow-lg shadow-indigo-500/30 mb-4">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h3a3 3 0 013 3v1" />
-            </svg>
+    <>
+      {/* Full-height split layout */}
+      <div
+        style={{
+          minHeight: '100dvh',
+          display: 'flex',
+          alignItems: 'stretch',
+          background: '#ffffff',
+        }}
+      >
+        {/* Left decorative panel — hidden on mobile */}
+        <div
+          aria-hidden="true"
+          style={{
+            display: 'none',
+            flex: '0 0 420px',
+            background: 'linear-gradient(160deg, #1D1B52 0%, #2d2a7a 100%)',
+            padding: '3rem 2.5rem',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            overflow: 'hidden',
+            position: 'relative',
+          }}
+          className="md-panel"
+        >
+          {/* Decorative circles */}
+          <div style={{
+            position: 'absolute', top: '-80px', right: '-80px',
+            width: '320px', height: '320px',
+            background: 'rgba(255,255,255,0.04)',
+            borderRadius: '50%',
+          }} />
+          <div style={{
+            position: 'absolute', bottom: '-60px', left: '-60px',
+            width: '240px', height: '240px',
+            background: 'rgba(255,255,255,0.04)',
+            borderRadius: '50%',
+          }} />
+
+          {/* Brand mark */}
+          <div>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              width: '44px', height: '44px',
+              background: 'rgba(255,255,255,0.12)',
+              borderRadius: '12px',
+              marginBottom: '1rem',
+            }}>
+              <svg width="22" height="22" fill="none" stroke="white" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <h2 style={{ color: '#ffffff', fontSize: '1.5rem', fontWeight: 800, margin: '0 0 0.5rem' }}>
+              TestDashboard
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.875rem', lineHeight: 1.6 }}>
+              ระบบจัดการผู้ใช้งาน<br />ผ่าน ReqRes API
+            </p>
           </div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-800 dark:from-indigo-400 dark:to-indigo-200 bg-clip-text text-transparent">
-            ยินดีต้อนรับกลับมา
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
-            ลงชื่อเข้าใช้จัดการระบบสมาชิกผ่าน ReqRes API
+
+          {/* Feature list */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+            {[
+              'ดูรายชื่อผู้ใช้งานทั้งหมด',
+              'แก้ไขและอัปเดตข้อมูลผู้ใช้',
+              'ลบผู้ใช้ออกจากระบบ',
+              'ระบบแจ้งเตือนแบบ Real-time',
+            ].map((text) => (
+              <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+                <div style={{
+                  width: '20px', height: '20px',
+                  background: 'rgba(255,255,255,0.12)',
+                  borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0,
+                }}>
+                  <svg width="10" height="10" fill="none" stroke="white" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <span style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.8125rem' }}>{text}</span>
+              </div>
+            ))}
+          </div>
+
+          <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.75rem' }}>
+            © 2025 TestDashboard
           </p>
         </div>
 
-        {/* Demo Alert Box */}
-        <div className="mb-6 p-4 rounded-xl bg-indigo-50/50 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-900/50 text-indigo-700 dark:text-indigo-300 text-xs flex flex-col gap-2">
-          <div className="flex items-center gap-1.5 font-semibold">
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-            </svg>
-            <span>การใช้งานร่วมกับ API Key</span>
+        {/* Right form panel */}
+        <div style={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '2rem 1.25rem',
+        }}>
+          <div className="animate-scale-up" style={{ width: '100%', maxWidth: '400px' }}>
+
+            {/* Mobile brand */}
+            <div style={{ marginBottom: '2rem' }}>
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: '0.625rem',
+                marginBottom: '0.5rem',
+              }}>
+                <div style={{
+                  width: '36px', height: '36px',
+                  background: '#1D1B52',
+                  borderRadius: '10px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <svg width="18" height="18" fill="none" stroke="white" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                      d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h3a3 3 0 013 3v1" />
+                  </svg>
+                </div>
+                <span style={{ fontWeight: 800, fontSize: '1.125rem', color: '#1D1B52' }}>
+                  TestDashboard
+                </span>
+              </div>
+              <h1 style={{
+                fontSize: '1.625rem',
+                fontWeight: 800,
+                color: '#1D1B52',
+                margin: '0 0 0.375rem',
+                lineHeight: 1.2,
+              }}>
+                ยินดีต้อนรับกลับมา
+              </h1>
+              <p style={{ color: 'rgba(29,27,82,0.5)', fontSize: '0.875rem' }}>
+                ลงชื่อเข้าใช้เพื่อจัดการระบบสมาชิก
+              </p>
+            </div>
+
+            {/* Demo info box */}
+            <div style={{
+              marginBottom: '1.5rem',
+              padding: '0.875rem 1rem',
+              background: 'rgba(29,27,82,0.05)',
+              border: '1.5px solid rgba(29,27,82,0.10)',
+              borderRadius: '10px',
+              fontSize: '0.8125rem',
+              color: 'rgba(29,27,82,0.65)',
+              lineHeight: 1.6,
+            }}>
+              <p style={{ margin: '0 0 0.5rem' }}>
+                ระบบจะดึง API Key จาก <code style={{ background: 'rgba(29,27,82,0.08)', padding: '1px 5px', borderRadius: '4px', fontSize: '0.75rem' }}>src/services/api.ts</code> โดยอัตโนมัติ
+              </p>
+              <button
+                type="button"
+                onClick={useDemoAccount}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#1D1B52',
+                  fontWeight: 700,
+                  fontSize: '0.8125rem',
+                  cursor: 'pointer',
+                  textDecoration: 'underline',
+                  padding: 0,
+                  fontFamily: 'inherit',
+                }}
+              >
+                → ใช้บัญชีทดสอบอัตโนมัติ
+              </button>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.125rem' }}>
+              <div>
+                <label htmlFor="login-email" className="label">อีเมล (Email)</label>
+                <input
+                  id="login-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="eve.holt@reqres.in"
+                  className="input-base"
+                  autoComplete="email"
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="login-password" className="label">รหัสผ่าน (Password)</label>
+                <input
+                  id="login-password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="input-base"
+                  autoComplete="current-password"
+                  required
+                />
+              </div>
+
+              <button
+                id="login-submit"
+                type="submit"
+                disabled={isSubmitting}
+                className="btn-primary"
+                style={{ width: '100%', marginTop: '0.375rem', padding: '0.875rem 1.5rem' }}
+              >
+                {isSubmitting ? (
+                  <div style={{
+                    width: '18px', height: '18px',
+                    border: '2px solid rgba(255,255,255,0.4)',
+                    borderTopColor: '#fff',
+                    borderRadius: '50%',
+                    animation: 'spin 0.75s linear infinite',
+                  }} />
+                ) : 'เข้าสู่ระบบ'}
+              </button>
+            </form>
+
+            {/* Footer */}
+            <p style={{
+              marginTop: '1.5rem',
+              textAlign: 'center',
+              fontSize: '0.8125rem',
+              color: 'rgba(29,27,82,0.5)',
+            }}>
+              ยังไม่มีบัญชีสมาชิก?{' '}
+              <Link href="/register" style={{ color: '#1D1B52', fontWeight: 700, textDecoration: 'none' }}
+                onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+                onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+              >
+                สมัครสมาชิก
+              </Link>
+            </p>
           </div>
-          <p>
-            ระบบจะดึง API Key จากตัวแปร `REQRES_API_KEY` ในไฟล์ `src/services/api.ts` มาใช้งานโดยตรง
-          </p>
-          <button
-            type="button"
-            onClick={useDemoAccount}
-            className="self-start text-xs font-bold underline hover:opacity-85 text-indigo-600 dark:text-indigo-400 cursor-pointer"
-          >
-            คลิกเพื่อใช้บัญชีทดสอบอัตโนมัติ
-          </button>
-        </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
-              อีเมล (Email)
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="eve.holt@reqres.in"
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white/50 dark:bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
-              รหัสผ่าน (Password)
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white/50 dark:bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm"
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white rounded-xl font-semibold shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/35 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-          >
-            {isSubmitting ? (
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            ) : (
-              'เข้าสู่ระบบ'
-            )}
-          </button>
-        </form>
-
-        {/* Footer Link */}
-        <div className="text-center mt-6 text-sm text-slate-500 dark:text-slate-400">
-          ยังไม่มีบัญชีสมาชิก?{' '}
-          <Link href="/register" className="font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300">
-            สมัครสมาชิก
-          </Link>
         </div>
       </div>
 
       {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-        />
+        <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />
       )}
-    </div>
+
+      {/* Responsive styles for left panel */}
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @media (min-width: 768px) {
+          .md-panel { display: flex !important; }
+        }
+      `}</style>
+    </>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { User, UserUpdateRequest, UserUpdateResponse } from '@/types';
 import { apiService } from '@/services/api';
 
@@ -20,9 +20,21 @@ export default function EditUserModal({ user, isOpen, onClose, onSaveSuccess, on
   useEffect(() => {
     if (user) {
       setName(`${user.first_name} ${user.last_name}`);
-      setJob('Software Engineer'); // Default placeholder value
+      setJob('Software Engineer');
     }
   }, [user]);
+
+  // Escape key handler
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') onClose();
+  }, [onClose]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      return () => document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [isOpen, handleKeyDown]);
 
   if (!isOpen || !user) return null;
 
@@ -37,18 +49,12 @@ export default function EditUserModal({ user, isOpen, onClose, onSaveSuccess, on
     try {
       const payload: UserUpdateRequest = { name, job };
       const response = await apiService.updateUser(user.id, payload);
-      
-      // Split simulated name back to first_name and last_name for UI display
+
       const nameParts = name.trim().split(' ');
       const first_name = nameParts[0] || '';
       const last_name = nameParts.slice(1).join(' ') || '';
 
-      const updatedUser: User = {
-        ...user,
-        first_name,
-        last_name,
-      };
-
+      const updatedUser: User = { ...user, first_name, last_name };
       onSaveSuccess(updatedUser, response);
       onClose();
     } catch (err: any) {
@@ -59,87 +65,155 @@ export default function EditUserModal({ user, isOpen, onClose, onSaveSuccess, on
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
-      <div className="w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50 overflow-hidden animate-scale-up">
-        
-        {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-700/60 flex items-center justify-between bg-slate-50 dark:bg-slate-800/40">
-          <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">
-            แก้ไขข้อมูลผู้ใช้ (ID: {user.id})
-          </h3>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="edit-modal-title"
+      className="animate-fade-in"
+      style={{
+        position: 'fixed', inset: 0,
+        zIndex: 50,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '1rem',
+        background: 'rgba(29, 27, 82, 0.35)',
+        backdropFilter: 'blur(4px)',
+        WebkitBackdropFilter: 'blur(4px)',
+      }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div
+        className="animate-scale-up"
+        style={{
+          width: '100%', maxWidth: '440px',
+          background: '#ffffff',
+          borderRadius: '16px',
+          border: '1.5px solid rgba(29,27,82,0.10)',
+          boxShadow: '0 24px 64px rgba(29,27,82,0.16)',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Header */}
+        <div style={{
+          padding: '1.25rem 1.5rem',
+          borderBottom: '1.5px solid rgba(29,27,82,0.07)',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          background: 'rgba(29,27,82,0.02)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+            <div style={{
+              width: '30px', height: '30px',
+              background: '#1D1B52',
+              borderRadius: '8px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <svg width="14" height="14" fill="none" stroke="white" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5"
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+            </div>
+            <h3 id="edit-modal-title" style={{ fontSize: '0.9375rem', fontWeight: 800, color: '#1D1B52', margin: 0 }}>
+              แก้ไขข้อมูลผู้ใช้{' '}
+              <span style={{
+                fontSize: '0.6875rem', fontWeight: 700,
+                background: 'rgba(29,27,82,0.08)', color: 'rgba(29,27,82,0.6)',
+                padding: '2px 6px', borderRadius: '5px', letterSpacing: '0.04em',
+              }}>
+                ID {user.id}
+              </span>
+            </h3>
+          </div>
+          <button
+            onClick={onClose}
+            aria-label="ปิด"
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              color: 'rgba(29,27,82,0.35)', padding: '4px', borderRadius: '6px',
+              transition: 'color 0.15s, background 0.15s',
+              display: 'flex', alignItems: 'center',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = '#1D1B52'; e.currentTarget.style.background = 'rgba(29,27,82,0.06)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(29,27,82,0.35)'; e.currentTarget.style.background = 'none'; }}
+          >
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
-          {/* User Preview */}
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/50">
+        {/* Form body */}
+        <form onSubmit={handleSubmit} style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.125rem' }}>
+          {/* User preview */}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '0.75rem',
+            padding: '0.75rem',
+            background: 'rgba(29,27,82,0.03)',
+            border: '1.5px solid rgba(29,27,82,0.07)',
+            borderRadius: '10px',
+          }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={user.avatar}
               alt={user.first_name}
-              className="w-12 h-12 rounded-full object-cover ring-2 ring-indigo-500/10"
+              style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover' }}
             />
             <div>
-              <p className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">อีเมลสมาชิก</p>
-              <p className="text-sm text-slate-600 dark:text-slate-300 font-medium">{user.email}</p>
+              <p style={{ fontSize: '0.6875rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: 'rgba(29,27,82,0.45)', marginBottom: '2px' }}>
+                อีเมลสมาชิก
+              </p>
+              <p style={{ fontSize: '0.875rem', fontWeight: 600, color: '#1D1B52' }}>{user.email}</p>
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
-              ชื่อ - นามสกุล (Name)
-            </label>
+            <label htmlFor="edit-name" className="label">ชื่อ - นามสกุล (Name)</label>
             <input
+              id="edit-name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+              className="input-base"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
-              ตำแหน่งงาน (Job)
-            </label>
+            <label htmlFor="edit-job" className="label">ตำแหน่งงาน (Job)</label>
             <input
+              id="edit-job"
               type="text"
               value={job}
               onChange={(e) => setJob(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+              className="input-base"
               required
             />
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100 dark:border-slate-700/60">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-900 rounded-xl transition-all cursor-pointer"
-            >
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
+            gap: '0.625rem',
+            paddingTop: '0.75rem',
+            borderTop: '1.5px solid rgba(29,27,82,0.06)',
+          }}>
+            <button type="button" onClick={onClose} className="btn-ghost">
               ยกเลิก
             </button>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white text-xs font-bold rounded-xl shadow-md shadow-indigo-600/15 hover:shadow-indigo-600/30 transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
-            >
+            <button type="submit" disabled={isSubmitting} className="btn-primary" style={{ minWidth: '100px' }}>
               {isSubmitting ? (
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              ) : (
-                'บันทึกข้อมูล'
-              )}
+                <div style={{
+                  width: '16px', height: '16px',
+                  border: '2px solid rgba(255,255,255,0.4)',
+                  borderTopColor: '#fff',
+                  borderRadius: '50%',
+                  animation: 'spin 0.75s linear infinite',
+                }} />
+              ) : 'บันทึกข้อมูล'}
             </button>
           </div>
         </form>
-
       </div>
+
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }

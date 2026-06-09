@@ -8,46 +8,91 @@ export interface ToastProps {
   onClose: () => void;
 }
 
+const typeConfig = {
+  success: {
+    bg: '#059669',
+    icon: (
+      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+      </svg>
+    ),
+    label: 'สำเร็จ',
+  },
+  error: {
+    bg: '#dc2626',
+    icon: (
+      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    ),
+    label: 'ข้อผิดพลาด',
+  },
+  info: {
+    bg: '#1D1B52',
+    icon: (
+      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+    label: 'ข้อมูล',
+  },
+};
+
 export function Toast({ message, type, onClose }: ToastProps) {
   useEffect(() => {
-    const timer = setTimeout(() => {
-      onClose();
-    }, 3000);
-
+    const timer = setTimeout(onClose, 4000);
     return () => clearTimeout(timer);
   }, [onClose]);
 
-  const typeStyles = {
-    success: 'bg-emerald-500 text-white shadow-emerald-500/20 border-emerald-400',
-    error: 'bg-rose-500 text-white shadow-rose-500/20 border-rose-400',
-    info: 'bg-indigo-500 text-white shadow-indigo-500/20 border-indigo-400',
-  };
-
-  const icons = {
-    success: (
-      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-      </svg>
-    ),
-    error: (
-      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    ),
-    info: (
-      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
-  };
+  const cfg = typeConfig[type];
 
   return (
-    <div className={`fixed top-5 left-0 right-0 mx-auto w-max z-50 flex items-center px-4 py-3 rounded-xl border shadow-lg transition-all animate-fade-in ${typeStyles[type]}`}>
-      {icons[type]}
-      <span className="text-sm font-medium">{message}</span>
-      <button onClick={onClose} className="ml-4 hover:opacity-85 focus:outline-none">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+    <div
+      role="alert"
+      aria-live="assertive"
+      className="animate-slide-down"
+      style={{
+        position: 'fixed',
+        top: '1.25rem',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 9999,
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.625rem',
+        padding: '0.75rem 1rem',
+        background: cfg.bg,
+        color: '#ffffff',
+        borderRadius: '10px',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.16)',
+        fontSize: '0.8125rem',
+        fontWeight: 600,
+        maxWidth: 'calc(100vw - 2rem)',
+        whiteSpace: 'nowrap',
+      }}
+    >
+      <span style={{ flexShrink: 0 }}>{cfg.icon}</span>
+      <span>{message}</span>
+      <button
+        onClick={onClose}
+        aria-label="ปิดการแจ้งเตือน"
+        style={{
+          marginLeft: '0.5rem',
+          background: 'none',
+          border: 'none',
+          color: 'rgba(255,255,255,0.75)',
+          cursor: 'pointer',
+          padding: '2px',
+          display: 'flex',
+          alignItems: 'center',
+          flexShrink: 0,
+          transition: 'color 0.15s',
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.color = '#fff')}
+        onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')}
+      >
+        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
