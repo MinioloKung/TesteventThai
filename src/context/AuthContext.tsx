@@ -49,12 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const register = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      const response = await apiService.register(email, password);
-      if (response.token) {
-        localStorage.setItem('auth_token', response.token);
-        setToken(response.token);
-        router.push('/dashboard');
-      }
+      await apiService.register(email, password);
     } catch (error) {
       throw error;
     } finally {

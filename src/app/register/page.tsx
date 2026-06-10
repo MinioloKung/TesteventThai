@@ -2,12 +2,14 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { Toast } from '@/components/ui/Toast';
 import { getErrorMessage } from '@/utils/errors';
 
 export default function RegisterPage() {
   const { register } = useAuth();
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -35,7 +37,10 @@ export default function RegisterPage() {
     setIsSubmitting(true);
     try {
       await register(email, password);
-      setToast({ message: 'สมัครสมาชิกสำเร็จ! กำลังนำคุณเข้าสู่ระบบ...', type: 'success' });
+      setToast({ message: 'สมัครสมาชิกสำเร็จ! กำลังนำคุณไปยังหน้าเข้าสู่ระบบ...', type: 'success' });
+      setTimeout(() => {
+        router.push('/login');
+      }, 1500);
     } catch (error) {
       setToast({ message: getErrorMessage(error, 'เกิดข้อผิดพลาดในการสมัครสมาชิก'), type: 'error' });
       setIsSubmitting(false);
