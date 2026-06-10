@@ -163,6 +163,7 @@ function CustomDropdown({ id, placeholder, users, accentColor, iconPath, onSelec
                 <button
                   key={user.id}
                   role="option"
+                  aria-selected="false"
                   onClick={() => handleSelect(user)}
                   onMouseEnter={() => setHovered(user.id)}
                   onMouseLeave={() => setHovered(null)}
@@ -182,9 +183,13 @@ function CustomDropdown({ id, placeholder, users, accentColor, iconPath, onSelec
                   }}
                 >
                   {/* Avatar */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={user.avatar}
                     alt={`${user.first_name} ${user.last_name}`}
+                    onError={(e) => {
+                      e.currentTarget.src = `https://i.pravatar.cc/150?img=${user.id}`;
+                    }}
                     style={{
                       width: '28px', height: '28px',
                       borderRadius: '50%',

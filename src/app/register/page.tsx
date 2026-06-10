@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { Toast } from '@/components/ui/Toast';
+import { getErrorMessage } from '@/utils/errors';
 
 export default function RegisterPage() {
   const { register } = useAuth();
@@ -35,8 +36,8 @@ export default function RegisterPage() {
     try {
       await register(email, password);
       setToast({ message: 'สมัครสมาชิกสำเร็จ! กำลังนำคุณเข้าสู่ระบบ...', type: 'success' });
-    } catch (error: any) {
-      setToast({ message: error.message || 'เกิดข้อผิดพลาดในการสมัครสมาชิก', type: 'error' });
+    } catch (error) {
+      setToast({ message: getErrorMessage(error, 'เกิดข้อผิดพลาดในการสมัครสมาชิก'), type: 'error' });
       setIsSubmitting(false);
     }
   };

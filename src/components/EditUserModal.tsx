@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { User, UserUpdateRequest, UserUpdateResponse } from '@/types';
 import { apiService } from '@/services/api';
+import { getErrorMessage } from '@/utils/errors';
 
 interface EditUserModalProps {
   user: User | null;
@@ -19,8 +20,10 @@ export default function EditUserModal({ user, isOpen, onClose, onSaveSuccess, on
 
   useEffect(() => {
     if (user) {
-      setName(`${user.first_name} ${user.last_name}`);
-      setJob('Software Engineer');
+      queueMicrotask(() => {
+        setName(`${user.first_name} ${user.last_name}`);
+        setJob('Software Engineer');
+      });
     }
   }, [user]);
 
@@ -57,8 +60,8 @@ export default function EditUserModal({ user, isOpen, onClose, onSaveSuccess, on
       const updatedUser: User = { ...user, first_name, last_name };
       onSaveSuccess(updatedUser, response);
       onClose();
-    } catch (err: any) {
-      onError(err.message || 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล');
+    } catch (error) {
+      onError(getErrorMessage(error, 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล'));
     } finally {
       setIsSubmitting(false);
     }
@@ -154,6 +157,9 @@ export default function EditUserModal({ user, isOpen, onClose, onSaveSuccess, on
             <img
               src={user.avatar}
               alt={user.first_name}
+              onError={(e) => {
+                e.currentTarget.src = `https://i.pravatar.cc/150?img=${user.id}`;
+              }}
               style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover' }}
             />
             <div>

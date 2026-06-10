@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { Toast } from '@/components/ui/Toast';
+import { getErrorMessage } from '@/utils/errors';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -24,8 +25,8 @@ export default function LoginPage() {
     try {
       await login(email, password);
       setToast({ message: 'เข้าสู่ระบบสำเร็จ! ยินดีต้อนรับ...', type: 'success' });
-    } catch (error: any) {
-      setToast({ message: error.message || 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ', type: 'error' });
+    } catch (error) {
+      setToast({ message: getErrorMessage(error, 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ'), type: 'error' });
       setIsSubmitting(false);
     }
   };
@@ -166,7 +167,7 @@ export default function LoginPage() {
                 margin: '0 0 0.375rem',
                 lineHeight: 1.2,
               }}>
-                ยินดีต้อนรับกลับมา
+                ยินดีต้อนรับ
               </h1>
               <p style={{ color: 'rgba(29,27,82,0.5)', fontSize: '0.875rem' }}>
                 ลงชื่อเข้าใช้เพื่อจัดการระบบสมาชิก

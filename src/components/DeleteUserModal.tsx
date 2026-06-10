@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { User } from '@/types';
 import { apiService } from '@/services/api';
+import { getErrorMessage } from '@/utils/errors';
 
 interface DeleteUserModalProps {
   user: User | null;
@@ -35,8 +36,8 @@ export default function DeleteUserModal({ user, isOpen, onClose, onDeleteSuccess
       await apiService.deleteUser(user.id);
       onDeleteSuccess(user.id);
       onClose();
-    } catch (err: any) {
-      onError(err.message || 'เกิดข้อผิดพลาดในการลบผู้ใช้');
+    } catch (error) {
+      onError(getErrorMessage(error, 'เกิดข้อผิดพลาดในการลบผู้ใช้'));
     } finally {
       setIsSubmitting(false);
     }
@@ -126,6 +127,9 @@ export default function DeleteUserModal({ user, isOpen, onClose, onDeleteSuccess
             <img
               src={user.avatar}
               alt={user.first_name}
+              onError={(e) => {
+                e.currentTarget.src = `https://i.pravatar.cc/150?img=${user.id}`;
+              }}
               style={{
                 width: '56px', height: '56px', borderRadius: '50%', objectFit: 'cover',
                 border: '2px solid rgba(220,38,38,0.15)',
@@ -148,19 +152,6 @@ export default function DeleteUserModal({ user, isOpen, onClose, onDeleteSuccess
             }}>
               ID: {user.id}
             </span>
-          </div>
-
-          {/* Warning note */}
-          <div style={{
-            padding: '0.75rem 1rem',
-            background: 'rgba(220,38,38,0.04)',
-            border: '1.5px solid rgba(220,38,38,0.10)',
-            borderRadius: '10px',
-            fontSize: '0.8125rem',
-            color: 'rgba(29,27,82,0.6)',
-            lineHeight: 1.6,
-          }}>
-            การดำเนินการนี้จะส่ง <code style={{ background: 'rgba(29,27,82,0.06)', padding: '1px 4px', borderRadius: '4px', fontSize: '0.75rem' }}>DELETE /api/users/{user.id}</code> ไปยัง ReqRes API และนำออกจากรายการทันที
           </div>
 
           {/* Actions */}

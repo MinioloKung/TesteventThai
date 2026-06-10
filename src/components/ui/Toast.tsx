@@ -48,53 +48,62 @@ export function Toast({ message, type, onClose }: ToastProps) {
 
   return (
     <div
-      role="alert"
-      aria-live="assertive"
-      className="animate-slide-down"
       style={{
         position: 'fixed',
         top: '1.25rem',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: 9999,
+        left: 0,
+        right: 0,
         display: 'flex',
-        alignItems: 'center',
-        gap: '0.625rem',
-        padding: '0.75rem 1rem',
-        background: cfg.bg,
-        color: '#ffffff',
-        borderRadius: '10px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.16)',
-        fontSize: '0.8125rem',
-        fontWeight: 600,
-        maxWidth: 'calc(100vw - 2rem)',
-        whiteSpace: 'nowrap',
+        justifyContent: 'center',
+        zIndex: 9999,
+        pointerEvents: 'none',
       }}
     >
-      <span style={{ flexShrink: 0 }}>{cfg.icon}</span>
-      <span>{message}</span>
-      <button
-        onClick={onClose}
-        aria-label="ปิดการแจ้งเตือน"
+      <div
+        role="alert"
+        aria-live="assertive"
+        className="animate-slide-down"
         style={{
-          marginLeft: '0.5rem',
-          background: 'none',
-          border: 'none',
-          color: 'rgba(255,255,255,0.75)',
-          cursor: 'pointer',
-          padding: '2px',
+          pointerEvents: 'auto',
           display: 'flex',
           alignItems: 'center',
-          flexShrink: 0,
-          transition: 'color 0.15s',
+          gap: '0.625rem',
+          padding: '0.75rem 1rem',
+          background: cfg.bg,
+          color: '#ffffff',
+          borderRadius: '10px',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.16)',
+          fontSize: '0.8125rem',
+          fontWeight: 600,
+          maxWidth: 'calc(100vw - 2rem)',
+          whiteSpace: 'nowrap',
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.color = '#fff')}
-        onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')}
       >
-        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
+        <span style={{ flexShrink: 0 }}>{cfg.icon}</span>
+        <span>{message}</span>
+        <button
+          onClick={onClose}
+          aria-label="ปิดการแจ้งเตือน"
+          style={{
+            marginLeft: '0.5rem',
+            background: 'none',
+            border: 'none',
+            color: 'rgba(255,255,255,0.75)',
+            cursor: 'pointer',
+            padding: '2px',
+            display: 'flex',
+            alignItems: 'center',
+            flexShrink: 0,
+            transition: 'color 0.15s',
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = '#fff')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')}
+        >
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
     </div>
   );
 }

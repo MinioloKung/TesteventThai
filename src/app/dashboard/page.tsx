@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { User, UserUpdateResponse } from '@/types';
@@ -9,6 +9,7 @@ import Navbar from '@/components/Navbar';
 import EditUserModal from '@/components/EditUserModal';
 import DeleteUserModal from '@/components/DeleteUserModal';
 import { Toast } from '@/components/ui/Toast';
+import { getErrorMessage } from '@/utils/errors';
 
 export default function DashboardPage() {
   const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
@@ -25,6 +26,24 @@ export default function DashboardPage() {
 
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
 
+  const showToast = useCallback((message: string, type: 'success' | 'error' | 'info') => {
+    setToast({ message, type });
+  }, []);
+
+  const fetchUsers = useCallback(async (page: number) => {
+    setIsDataLoading(true);
+    try {
+      const response = await apiService.getUsers(page);
+      setUsers(response.data);
+      setCurrentPage(response.page);
+      setTotalPages(response.total_pages);
+    } catch (error) {
+      showToast(getErrorMessage(error, 'ไม่สามารถโหลดข้อมูลผู้ใช้ได้'), 'error');
+    } finally {
+      setIsDataLoading(false);
+    }
+  }, [showToast]);
+
   useEffect(() => {
     if (!isAuthLoading && !isAuthenticated) {
       router.replace('/login');
@@ -33,33 +52,17 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      fetchUsers(currentPage);
+      queueMicrotask(() => {
+        fetchUsers(currentPage);
+      });
     }
-  }, [currentPage, isAuthenticated]);
+  }, [currentPage, fetchUsers, isAuthenticated]);
 
   useEffect(() => {
     if (isAuthenticated) {
       apiService.getAllUsers().then(setAllUsers).catch(console.error);
     }
   }, [isAuthenticated]);
-
-  const fetchUsers = async (page: number) => {
-    setIsDataLoading(true);
-    try {
-      const response = await apiService.getUsers(page);
-      setUsers(response.data);
-      setCurrentPage(response.page);
-      setTotalPages(response.total_pages);
-    } catch (err: any) {
-      showToast(err.message || 'ไม่สามารถโหลดข้อมูลผู้ใช้ได้', 'error');
-    } finally {
-      setIsDataLoading(false);
-    }
-  };
-
-  const showToast = (message: string, type: 'success' | 'error' | 'info') => {
-    setToast({ message, type });
-  };
 
   const handleEditSuccess = (updatedUser: User, info: UserUpdateResponse) => {
     setUsers((prev) => prev.map((u) => (u.id === updatedUser.id ? updatedUser : u)));
@@ -386,6 +389,9 @@ function UserCard({ user, onEdit, onDelete }: UserCardProps) {
       <img
         src={user.avatar}
         alt={`${user.first_name} ${user.last_name}`}
+        onError={(e) => {
+          e.currentTarget.src = `https://i.pravatar.cc/150?img=${user.id}`;
+        }}
         style={{
           width: '64px', height: '64px',
           borderRadius: '50%', objectFit: 'cover',

@@ -21,11 +21,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    const savedToken = localStorage.getItem('auth_token');
-    if (savedToken) {
-      setToken(savedToken);
-    }
-    setIsLoading(false);
+    queueMicrotask(() => {
+      const savedToken = localStorage.getItem('auth_token');
+      if (savedToken) {
+        setToken(savedToken);
+      }
+      setIsLoading(false);
+    });
   }, []);
 
   const login = async (email: string, password: string) => {
