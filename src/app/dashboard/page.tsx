@@ -137,7 +137,7 @@ export default function DashboardPage() {
           /* Skeleton */
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
             gap: '1.25rem',
           }}>
             {[...Array(8)].map((_, i) => (
@@ -194,10 +194,10 @@ export default function DashboardPage() {
             </p>
           </div>
         ) : (
-          /* Cards grid — 4-column balanced */
+          /* Cards grid — responsive auto-fill */
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
             gap: '1.25rem',
           }}>
             {users.map((user) => (
