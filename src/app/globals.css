@@ -234,6 +234,25 @@ body {
   border-radius: 8px;
 }
 
+/* Responsive Grid for User Cards: 4 columns on desktop, 2 on tablet, 1 on mobile */
+.user-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .user-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .user-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 /* ─── Reduced Motion ─────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

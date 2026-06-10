@@ -135,11 +135,7 @@ export default function DashboardPage() {
         {/* User cards */}
         {isDataLoading ? (
           /* Skeleton */
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-            gap: '1.25rem',
-          }}>
+          <div className="user-grid">
             {[...Array(8)].map((_, i) => (
               <div key={i} style={{
                 background: '#ffffff',
@@ -195,11 +191,7 @@ export default function DashboardPage() {
           </div>
         ) : (
           /* Cards grid — responsive auto-fill */
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-            gap: '1.25rem',
-          }}>
+          <div className="user-grid">
             {users.map((user) => (
               <UserCard
                 key={user.id}
